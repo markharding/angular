@@ -28,8 +28,8 @@ export class RequestOptions implements IRequestOptions {
   /**
    * Body to be used when creating the request.
    */
-  // TODO: support FormData, Blob, URLSearchParams
-  body: string;
+  // TODO: support Blob, URLSearchParams
+  body: string | FormData;
   mode: RequestModesOpts;
   credentials: RequestCredentialsOpts;
   cache: RequestCacheOpts;

@@ -47,8 +47,8 @@ export interface IRequestOptions {
   method?: RequestMethods;
   search?: string | URLSearchParams;
   headers?: Headers;
-  // TODO: Support Blob, ArrayBuffer, JSON, URLSearchParams, FormData
-  body?: string;
+  // TODO: Support Blob, ArrayBuffer, JSON, URLSearchParams
+  body?: string | FormData;
   mode?: RequestModesOpts;
   credentials?: RequestCredentialsOpts;
   cache?: RequestCacheOpts;

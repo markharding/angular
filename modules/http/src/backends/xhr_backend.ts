@@ -65,7 +65,15 @@ export class XHRConnection implements Connection {
       req.headers.forEach((value, name) => { this._xhr.setRequestHeader(name, value); });
     }
 
-    this._xhr.send(this.request.text());
+    switch(typeof this.request){
+      case "string":
+        this._xhr.send(this.request.text());
+      break;
+      case "FormData":
+        this._xhr.send(this.request);
+      break;
+    }
+
   }
 
   /**

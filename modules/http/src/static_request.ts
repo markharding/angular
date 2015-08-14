@@ -36,7 +36,7 @@ export class Request {
   /** Url of the remote resource */
   url: string;
   // TODO: support URLSearchParams | FormData | Blob | ArrayBuffer
-  private _body: string;
+  private _body: string | FormData;
   cache: RequestCacheOpts;
   constructor(requestOptions: RequestOptions) {
     // TODO: assert that url is present

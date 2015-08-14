@@ -134,7 +134,7 @@ export class Http {
   /**
    * Performs a request with `post` http method.
    */
-  post(url: string, body: string, options?: IRequestOptions): EventEmitter {
+  post(url: string, body: string | FormData, options?: IRequestOptions): EventEmitter {
     return httpRequest(
         this._backend,
         new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({body: body})),
