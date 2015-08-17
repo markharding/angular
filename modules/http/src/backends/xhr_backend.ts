@@ -23,6 +23,7 @@ export class XHRConnection implements Connection {
    * `XMLHttpRequest`.
    */
   response: EventEmitter;  // TODO: Make generic of <Response>;
+  progress: EventEmitter;
   readyState: ReadyStates;
   private _xhr;  // TODO: make type XMLHttpRequest, pending resolution of
                  // https://github.com/angular/ts2dart/issues/230
@@ -59,6 +60,11 @@ export class XHRConnection implements Connection {
       // TODO(gdi2290): defer complete if array buffer until done
       ObservableWrapper.callReturn(this.response);
     });
+
+    this._xhr.addEventListener('progress', (progress) => {
+      ObservableWrapper.callNext(this.progress, progress);
+    });
+
     // TODO(jeffbcross): make this more dynamic based on body type
 
     if (isPresent(req.headers)) {

@@ -112,7 +112,7 @@ export function main() {
                backend.resolveAllConnections();
                async.done();
              });
-             ObservableWrapper.subscribe(http.get(url), res => {});
+             ObservableWrapper.subscribe(http.get(url).response, res => {});
            }));
       });
 
@@ -124,7 +124,7 @@ export function main() {
                backend.resolveAllConnections();
                async.done();
              });
-             ObservableWrapper.subscribe(http.post(url, 'post me'), res => {});
+             ObservableWrapper.subscribe(http.post(url, 'post me').response, res => {});
            }));
 
 
@@ -135,7 +135,7 @@ export function main() {
                backend.resolveAllConnections();
                async.done();
              });
-             ObservableWrapper.subscribe(http.post(url, body), res => {});
+             ObservableWrapper.subscribe(http.post(url, body).response, res => {});
            }));
       });
 
@@ -147,7 +147,7 @@ export function main() {
                backend.resolveAllConnections();
                async.done();
              });
-             ObservableWrapper.subscribe(http.put(url, 'put me'), res => {});
+             ObservableWrapper.subscribe(http.put(url, 'put me').response, res => {});
            }));
 
         it('should attach the provided body to the request', inject([AsyncTestCompleter], async => {
@@ -157,7 +157,7 @@ export function main() {
                backend.resolveAllConnections();
                async.done();
              });
-             ObservableWrapper.subscribe(http.put(url, body), res => {});
+             ObservableWrapper.subscribe(http.put(url, body).response, res => {});
            }));
       });
 
@@ -169,7 +169,7 @@ export function main() {
                backend.resolveAllConnections();
                async.done();
              });
-             ObservableWrapper.subscribe(http.delete(url), res => {});
+             ObservableWrapper.subscribe(http.delete(url).response, res => {});
            }));
       });
 
@@ -191,7 +191,7 @@ export function main() {
                backend.resolveAllConnections();
                async.done();
              });
-             ObservableWrapper.subscribe(http.patch(url, body), res => {});
+             ObservableWrapper.subscribe(http.patch(url, body).response, res => {});
            }));
       });
 
@@ -203,7 +203,7 @@ export function main() {
                backend.resolveAllConnections();
                async.done();
              });
-             ObservableWrapper.subscribe(http.head(url), res => {});
+             ObservableWrapper.subscribe(http.head(url).response, res => {});
            }));
       });
 
@@ -218,7 +218,7 @@ export function main() {
                async.done();
              });
              ObservableWrapper.subscribe(
-                 http.get('https://www.google.com', new RequestOptions({search: params})),
+                 http.get('https://www.google.com', new RequestOptions({search: params})).response,
                  res => {});
            }));
 
@@ -230,7 +230,7 @@ export function main() {
                async.done();
              });
              ObservableWrapper.subscribe(
-                 http.get('https://www.google.com', new RequestOptions({search: 'q=piggies'})),
+                 http.get('https://www.google.com', new RequestOptions({search: 'q=piggies'})).response,
                  res => {});
            }));
 
@@ -243,7 +243,7 @@ export function main() {
                async.done();
              });
              ObservableWrapper.subscribe(http.get('https://www.google.com?q=angular',
-                                                  new RequestOptions({search: 'as_eq=1.x'})),
+                                                  new RequestOptions({search: 'as_eq=1.x'})).response,
                                          res => {});
            }));
       });

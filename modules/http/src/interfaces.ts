@@ -35,6 +35,7 @@ export class Connection {
   readyState: ReadyStates;
   request: Request;
   response: EventEmitter;  // TODO: generic of <Response>;
+  progress: EvenetEmitter;
   dispose(): void { throw new BaseException('Abstract!'); }
 }
 

@@ -33,8 +33,11 @@ export class MockConnection {
    */
   response: EventEmitter;
 
+  progress: EventEmitter;
+
   constructor(req: Request) {
     this.response = new EventEmitter();
+    this.progress = new EventEmitter();
     this.readyState = ReadyStates.OPEN;
     this.request = req;
   }

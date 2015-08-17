@@ -6,8 +6,8 @@ import {BaseRequestOptions, RequestOptions} from './base_request_options';
 import {RequestMethods} from './enums';
 import {EventEmitter} from 'angular2/src/facade/async';
 
-function httpRequest(backend: ConnectionBackend, request: Request): EventEmitter {
-  return backend.createConnection(request).response;
+function httpRequest(backend: ConnectionBackend, request: Request): Connection {
+  return backend.createConnection(request);
 }
 
 function mergeOptions(defaultOpts, providedOpts, method, url): RequestOptions {
@@ -111,7 +111,7 @@ export class Http {
    * object can be provided as the 2nd argument. The options object will be merged with the values
    * of {@link BaseRequestOptions} before performing the request.
    */
-  request(url: string | Request, options?: RequestOptionsArgs): EventEmitter {
+  request(url: string | Request, options?: RequestOptionsArgs): Connection {
     var responseObservable: EventEmitter;
     if (isString(url)) {
       responseObservable = httpRequest(
@@ -126,7 +126,7 @@ export class Http {
   /**
    * Performs a request with `get` http method.
    */
-  get(url: string, options?: RequestOptionsArgs): EventEmitter {
+  get(url: string, options?: RequestOptionsArgs): Connection {
     return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options,
                                                                RequestMethods.GET, url)));
   }
@@ -134,7 +134,7 @@ export class Http {
   /**
    * Performs a request with `post` http method.
    */
-  post(url: string, body: string, options?: RequestOptionsArgs): EventEmitter {
+  post(url: string, body: string, options?: RequestOptionsArgs): Connection {
     return httpRequest(
         this._backend,
         new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({body: body})),
@@ -144,7 +144,7 @@ export class Http {
   /**
    * Performs a request with `put` http method.
    */
-  put(url: string, body: string, options?: RequestOptionsArgs): EventEmitter {
+  put(url: string, body: string, options?: RequestOptionsArgs): Connection {
     return httpRequest(
         this._backend,
         new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({body: body})),
@@ -154,7 +154,7 @@ export class Http {
   /**
    * Performs a request with `delete` http method.
    */
-  delete (url: string, options?: RequestOptionsArgs): EventEmitter {
+  delete (url: string, options?: RequestOptionsArgs): Connection {
     return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options,
                                                                RequestMethods.DELETE, url)));
   }
@@ -162,7 +162,7 @@ export class Http {
   /**
    * Performs a request with `patch` http method.
    */
-  patch(url: string, body: string, options?: RequestOptionsArgs): EventEmitter {
+  patch(url: string, body: string, options?: RequestOptionsArgs): Connection {
     return httpRequest(
         this._backend,
         new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({body: body})),
@@ -172,7 +172,7 @@ export class Http {
   /**
    * Performs a request with `head` http method.
    */
-  head(url: string, options?: RequestOptionsArgs): EventEmitter {
+  head(url: string, options?: RequestOptionsArgs): Connection {
     return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options,
                                                                RequestMethods.HEAD, url)));
   }
@@ -190,7 +190,7 @@ export class Jsonp extends Http {
    * object can be provided as the 2nd argument. The options object will be merged with the values
    * of {@link BaseRequestOptions} before performing the request.
    */
-  request(url: string | Request, options?: RequestOptionsArgs): EventEmitter {
+  request(url: string | Request, options?: RequestOptionsArgs): Connection {
     var responseObservable: EventEmitter;
     if (isString(url)) {
       url = new Request(mergeOptions(this._defaultOptions, options, RequestMethods.GET, url));

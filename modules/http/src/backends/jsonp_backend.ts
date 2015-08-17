@@ -12,6 +12,7 @@ export class JSONPConnection implements Connection {
   readyState: ReadyStates;
   request: Request;
   response: EventEmitter;
+  progress: EventEmitter;
   private _id: string;
   private _script: Element;
   private _responseData: any;
@@ -24,6 +25,7 @@ export class JSONPConnection implements Connection {
     }
     this.request = req;
     this.response = new EventEmitter();
+    this.progress = new EventEmitter();
     this.readyState = ReadyStates.LOADING;
     this._id = _dom.nextRequestID();
 
