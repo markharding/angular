@@ -71,4 +71,9 @@ export class Request {
    * string.
    */
   text(): String { return isPresent(this._body) ? this._body.toString() : ''; }
+
+  /**
+   * Returns the raw request body
+   */
+  body(): any { return isPresent(this._body) ? this._body : null; }
 }

@@ -23,6 +23,7 @@ export class XHRConnection implements Connection {
    * `XMLHttpRequest`.
    */
   response: EventEmitter;  // TODO: Make generic of <Response>;
+  progress: EventEmitter;
   readyState: ReadyStates;
   private _xhr;  // TODO: make type XMLHttpRequest, pending resolution of
                  // https://github.com/angular/ts2dart/issues/230
@@ -32,6 +33,7 @@ export class XHRConnection implements Connection {
     var requestMethodsMap = new RequestMethodsMap();
     this.request = req;
     this.response = new EventEmitter();
+    this.progress = new EventEmitter();
     this._xhr = browserXHR.build();
     // TODO(jeffbcross): implement error listening/propagation
     this._xhr.open(requestMethodsMap.getMethod(ENUM_INDEX(req.method)), req.url);
@@ -59,20 +61,18 @@ export class XHRConnection implements Connection {
       // TODO(gdi2290): defer complete if array buffer until done
       ObservableWrapper.callReturn(this.response);
     });
+    this._xhr.addEventListener('progress', (progress){
+      // TODO(markharding): Create a progress modal class/object
+      ObservableWrapper.callNext(this.progress, progress);
+      ObservableWrapper.callReturn(this.progress);
+    });
     // TODO(jeffbcross): make this more dynamic based on body type
 
     if (isPresent(req.headers)) {
       req.headers.forEach((value, name) => { this._xhr.setRequestHeader(name, value); });
     }
 
-    switch(typeof this.request){
-      case "string":
-        this._xhr.send(this.request.text());
-      break;
-      case "FormData":
-        this._xhr.send(this.request);
-      break;
-    }
+    this._xhr.send(this.request.body());
 
   }
 
@@ -92,11 +92,10 @@ export class XHRConnection implements Connection {
  * #Example
  *
  * ```
- * import {Http, MyNodeBackend, httpInjectables, BaseRequestOptions} from
- *'angular2/http';
+ * import {Http, MyNodeBackend, HTTP_BINDINGS, BaseRequestOptions} from 'http/http';
  * @Component({
  *   viewBindings: [
- *     httpInjectables,
+ *     HTTP_BINDINGS,
  *     bind(Http).toFactory((backend, options) => {
  *       return new Http(backend, options);
  *     }, [MyNodeBackend, BaseRequestOptions])]
